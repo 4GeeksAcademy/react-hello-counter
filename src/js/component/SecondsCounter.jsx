@@ -7,28 +7,24 @@ const SecondsCounter = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setElapsedSeconds(prevSeconds => prevSeconds + 1);
+      setElapsedSeconds(prevSeconds => {
+        if (prevSeconds < 9) {
+          return prevSeconds + 1;
+        } else { 
+          return 0;
+        }
+      });
     }, 1000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const formatTime = () => {
-    const minutes = Math.floor(elapsedSeconds / 60);
-    const remainingSeconds = elapsedSeconds % 60;
-    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-  };
 
   return (
-    <div className="container-fluid bg-dark text-light">
-      <div className="row">
-        <div className="col-md-2 text-center bordered-box">
-          <FontAwesomeIcon icon={faClock} size="4x" />
+    <div>
+        <div>
+          {elapsedSeconds}
         </div>
-        <div className="col-md-1 text-center bordered-box">
-          {formatTime()}
-        </div>
-      </div>
     </div>
   );
 };
